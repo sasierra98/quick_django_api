@@ -63,3 +63,15 @@ msgstr "Nombre"
 
 msgid "Description"
 msgstr "Descripción"
+
+msgid "Client"
+msgstr "Cliente"
+
+msgid "Company name"
+msgstr "Nombre de la empresa"
+
+msgid "Code"
+msgstr "Código"
+
+msgid "Products"
+msgstr "Productos"
