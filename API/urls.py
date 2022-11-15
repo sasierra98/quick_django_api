@@ -17,4 +17,6 @@ urlpatterns = [
     path('product', ProductView.as_view()),
     path('product/<int:product_id>', ProductDetailView.as_view()),
 
+    path('bill', BillView.as_view()),
+    path('bill/<int:bill_id>', BillDetailView.as_view())
 ]
