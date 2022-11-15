@@ -1,7 +1,8 @@
 from django.urls import path, include
 from rest_framework_simplejwt import views as jwt_views
 
-from API.views import UserView, UserDetailView, RegisterView, ClientView, ClientDetailView
+from API.views import UserView, UserDetailView, RegisterView, ClientView, ClientDetailView, \
+                      ProductView, ProductDetailView, BillView, BillDetailView
 
 urlpatterns = [
     path('user', UserView.as_view()),
@@ -11,5 +12,9 @@ urlpatterns = [
     path('user/<int:user_id>', UserDetailView.as_view()),
 
     path('client', ClientView.as_view()),
-    path('client/<int:client_id>', ClientDetailView.as_view())
+    path('client/<int:client_id>', ClientDetailView.as_view()),
+
+    path('product', ProductView.as_view()),
+    path('product/<int:product_id>', ProductDetailView.as_view()),
+
 ]
