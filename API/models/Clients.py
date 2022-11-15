@@ -4,9 +4,9 @@ from django.utils.translation import gettext_lazy as _
 from base_model.models import AbstractModel
 
 TYPE_DOCUMENT_CHOICES = (
-    (_('ID'), _('ID Card')),
-    (_('CI'), _('Card Identification')),
-    (_('NIT'), _('NIT'))
+    ('CC', _('ID Card')),
+    ('TI', _('Card Identification')),
+    ('NIT', _('NIT'))
 )
 
 
