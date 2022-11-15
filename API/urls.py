@@ -2,7 +2,7 @@ from django.urls import path, include
 from rest_framework_simplejwt import views as jwt_views
 
 from API.views import UserView, UserDetailView, RegisterView, ClientView, ClientDetailView, \
-                      ProductView, ProductDetailView, BillView, BillDetailView
+                      ProductView, ProductDetailView, BillView, BillDetailView, ClientReportView
 
 urlpatterns = [
     path('user', UserView.as_view()),
@@ -13,6 +13,7 @@ urlpatterns = [
 
     path('client', ClientView.as_view()),
     path('client/<int:client_id>', ClientDetailView.as_view()),
+    path('client/report/<int:client_id>', ClientReportView.as_view()),
 
     path('product', ProductView.as_view()),
     path('product/<int:product_id>', ProductDetailView.as_view()),
