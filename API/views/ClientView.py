@@ -12,7 +12,7 @@ from psycopg2 import connect
 from environ import Env
 
 from API.models import Clients
-from API.serializers.ClientSerializer import ClientSerializer
+from API.serializers.ClientSerializer import ClientSerializer, UploadCreationClientSerializer
 from quick_django_api.settings import BASE_DIR
 
 
@@ -76,21 +76,6 @@ class ClientReportView(APIView):
 
         return conn
 
-    def get_client_df(self, client_id: int) -> list:
-        client = pd.read_sql(f'''
-            SELECT
-                id AS client_id,
-                document,
-                CONCAT(first_name, ' ',last_name) AS full_name
-            FROM "API_clients"
-            WHERE
-                id = {client_id}
-        ''', self.db)
-        if client.empty:
-            raise ValidationError({'error': 'There is not client to report'})
-
-        return client
-
     def get_report_df(self, client_id: int) -> pd.DataFrame:
         report = pd.read_sql(f"""
             SELECT
@@ -107,20 +92,6 @@ class ClientReportView(APIView):
         if report.empty:
             raise ValidationError({'error': 'There are not enough data to report'})
         return report
-    def get_bill_df(self, client_id: int) -> list:
-        bill = pd.read_sql(f'''
-            SELECT
-                id AS bill_id,
-                client_id
-            FROM "API_bills"
-            WHERE
-                client_id = {client_id}
-        ''', self.db)
-
-        if bill.empty:
-            raise ValidationError({'error': 'There are not bills to report'})
-
-        return bill
 
     def get(self, request: Request, client_id: int, format=None) -> FileResponse:
         report_df = self.get_report_df(client_id)
@@ -134,3 +105,11 @@ class ClientReportView(APIView):
             as_attachment=True,
             filename=f'report_{report_df["document"][0]}.csv'
         )
+
+
+class UploadCreationClientView(APIView):
+    def post(self, request: Request, format=None) -> Response:
+        serializer = UploadCreationClientSerializer(data=request.data)
+        if serializer.is_valid():
+            return Response({"message": "Clients created"}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
